@@ -1,7 +1,8 @@
 <?php
 
 namespace App;
-
+use App\Security\Factory;
+use App\Security\Token\Token
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -13,6 +14,11 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    public function build(ContainerBuilder $container)
+    {
+        $extension = $container->getExtension('security');
+        $extension->addSecurityListenerFactory(new WsseFactory());
+    }
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     public function registerBundles(): iterable
